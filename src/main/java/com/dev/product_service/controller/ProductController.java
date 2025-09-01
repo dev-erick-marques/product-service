@@ -5,10 +5,7 @@ import com.dev.product_service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
@@ -16,8 +13,13 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("/products")
-    public ResponseEntity<?> getProducts(){
-        return ResponseEntity.ok(service.getProducts());
+    public ResponseEntity<?> getAllProducts(){
+        return ResponseEntity.ok(service.getAllProducts());
+    }
+    @GetMapping("/products/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(service.getProductById(id));
     }
 
     @PostMapping("/products")
@@ -26,4 +28,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Produto cadastrado com sucesso");
     }
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<?> deleteProductById(@PathVariable Long id){
+        service.deleteProductById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Produto deletado com sucesso");
+    }
+
 }
