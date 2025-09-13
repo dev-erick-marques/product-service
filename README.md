@@ -1,24 +1,87 @@
 # Product Service
-O **Product Service** é um microsserviço responsável pelo gerenciamento de produtos dentro da plataforma de e-commerce.  
-Ele fornece endpoints para **criação, listagem, atualização e remoção de produtos**, faz parte do ecossistema de microsserviços do projeto Elevare Commerce.
 
-## Tecnologias 
+The **Product Service** is a microservice responsible for managing products in the **Elevare Commerce** platform.
+It provides endpoints to create, list, update, and delete products. 
+
+The service uses **Consul** for service discovery and requires a **JWT token** from the **Auth-Service**.
+
+[Read in Portuguese](README-PT.md)
+
+---
+## Technologies
 - Java 17+
 - Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- JWT (JSON Web Token)
+- OAuth2 Resource Server
 - Maven
-- Docker (opcional para deploy)
-- Consul
+---
+## JWT & Keys
+All microservices (including Product Service) must use the same public key as the Auth-Service to validate JWT tokens.
+- Make sure the public key is accessible to each service, either via environment variable or configuration file.
+- The private key remains only in the Auth-Service for signing tokens.
+- If you don’t have a key pair yet, you can generate one with this [project](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
+---
+## Prerequisites
 
-## Endpoints Principais
-| Método | Endpoint             | Descrição                |
-| ------ | -------------------- | ------------------------ |
-| POST   | `/api/products`      | Cadastrar novo produto   |
-| GET    | `/api/products`      | Listar todos os produtos |
-| GET    | `/api/products/{id}` | Buscar produto por ID    |
-| DELETE | `/api/products/{id}` | Remover produto          |
+- Java 17+
+- Consul running
+- Auth-Service for JWT token generation
+- Same public key as the auth service
+---
+## Consul Setup
+1. Download Consul [here](https://developer.hashicorp.com/consul/install) 
+2. Run in development mode: `consul agent -dev`
+3. The Consul web UI will be available at ``localhost:8500``
+---
+## Features
 
-## Próximos passos
-- Implementação do Spring Security para autenticação por JWT
-- Adicionar Endpoint para atualizar produtos
-- Implementação de Roles nos Endpoints
-- Integração com outros microsserviços
+### Products
+- List all products 
+- Create a product
+- Get a product by ID 
+- DTOs and Mapper included for entity-to-DTO conversion
+
+### Categories
+- List all categories
+- Create a category 
+- Get a category by ID
+
+
+### Others
+- **DTOs**: Request and response DTOs have been added
+- **Mapper**: Facilitates conversion between entities and DTOs
+---
+
+## Main Endpoints
+
+### Products
+
+| Method | Endpoint                   | Description                        |
+|--------|----------------------------|------------------------------------|
+| GET    | ``/products``              | List all products                  |
+| POST   | ``/products  ``            | Create a new product               |
+| GET    | ``/products/{id}``         | Get product by ID                  |
+| DELETE | ``/products/{id}``         | Soft delete product by ID          |
+| PATCH  | ``/products/{id}/restore`` | Restore soft deleted product by ID |
+
+### Categories
+
+| Method | Endpoint             | Description           |
+|--------|----------------------|-----------------------|
+| GET    | ``/categories``      | List all categories   |
+| POST   | ``/categories``      | Create a new category |
+| GET    | ``/categories/{id}`` | Get category by ID    |
+---
+## Next Steps
+
+- Add validation so that when an item is soft-deleted, it does not appear in the product or category listings.
+- Add endpoint to update products / categories
+- Add endpoint to delete categories
+- Implement role-based access for endpoints
+---
+
+## Notes
+- If you want to choose another database, you must update the dependencies in the `pom.xml` to support Flyway.
