@@ -3,7 +3,7 @@ package com.dev.product_service.products.service;
 import com.dev.product_service.products.dto.ProductListDTO;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.entity.Product;
-import com.dev.product_service.exceptions.ResourceNotFoundException;
+import com.dev.product_service.common.exception.ResourceNotFoundException;
 import com.dev.product_service.products.mapper.ProductMapper;
 import com.dev.product_service.products.repository.ProductRepository;
 import lombok.Getter;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

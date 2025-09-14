@@ -6,6 +6,7 @@ import com.dev.product_service.categories.dto.CategoryResponseDTO;
 import com.dev.product_service.categories.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -26,8 +27,7 @@ public class CategoryController {
         );
     }
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO> registerCategory(@RequestBody CategoryRequestDTO dto){
-        System.out.println(dto.categoryName() + "controller");
+    public ResponseEntity<CategoryResponseDTO> registerCategory(@RequestBody @Validated CategoryRequestDTO dto){
         return ResponseEntity.ok(service.registerCategory(dto));
     }
     @GetMapping

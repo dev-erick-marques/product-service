@@ -1,5 +1,5 @@
 # Product Service
-O **Product Service** é um microsserviço responsável pelo gerenciamento de produtos dentro da plataforma **Elevare Commerce**. Ele fornece endpoints para criação, listagem, atualização e remoção de produtos.
+O **Product Service** é um microsserviço modular responsável pelo gerenciamento de produtos dentro da plataforma **Elevare Commerce**. Ele fornece endpoints para criação, listagem, atualização e remoção de produtos.
 
 A aplicação utiliza **Consul** para service discovery e requer um **token JWT**, que deve ser obtido através do **Auth-Service**
 
@@ -22,6 +22,7 @@ Todos os microsserviços (incluindo o Product Service) devem usar a mesma chave 
 - Certifique-se de que a chave pública esteja acessível a cada serviço, seja por meio de uma variável de ambiente ou de um arquivo de configuração.
 - A chave privada permanece no Auth-Service apenas para assinar os tokens.
 - Caso ainda não tenha um par de chaves, você pode gerar atraves deste [projeto](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
+- Todos os endpoints são protegidos por token JWT. Obtenha um token em [Auth Service](https://github.com/Dev-Erick-Marques/auth-service).
 ----
 ## Pré-requisitos
 
@@ -41,20 +42,18 @@ O projeto depende do **Consul** para registro e descoberta de serviços.
 ---
 ## Funcionalidades Implementadas
 
-### Produtos
-- Listar produtos
-- Cadastrar produto
-- Buscar produto por ID
+- Domínios modulares: Cada domínio (Produto, Categoria) possui seus próprios controladores, serviços e DTOs.
+- Tratamento de erros global compartilhado: Um GlobalExceptionHandler lida com exceções específicas de domínio e genéricas.
 
-
-### Categorias
-- Listar categorias
-- Cadastrar categoria
-- Buscar categoria por ID
-
-### Outros
-- **DTOs**: foram adicionados DTOs de request e response
-- **Mapper**: facilita a conversão entre entidades e DTOs
+- Respostas de erro estruturadas:
+- Suporta erros de validação em nível de campo com uma lista de erros.
+- timestamps de data e hora UTC ISO 8601 truncados para milissegundos.
+- Formato JSON consistente em todos os domínios.
+- Princípio da Responsabilidade Única (SRP):
+- O handler cria respostas de erro.
+- Os DTOs armazenam detalhes do erro.
+- Os módulos de domínio permanecem isolados.
+- Suporte à validação: A Validação de Bean (@Valid, @NotNull, etc.) aciona automaticamente respostas estruturadas de 400.
 
 ---
 ## Endpoints Principais
@@ -86,4 +85,7 @@ O projeto depende do **Consul** para registro e descoberta de serviços.
 ---
 ## Observações
 - Caso desejar escolher outro banco de dados, deverá atualizar as dependencias no ``pom.xml`` para que suporte o flyway
+---
+## Changelog
+- Veja o [Changelog](CHANGELOG.md) para detalhes de todas as modificações.
 

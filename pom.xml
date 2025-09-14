@@ -21,9 +21,9 @@
 	</parent>
 	<groupId>com.dev</groupId>
 	<artifactId>product-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>product-service</name>
-	<description>product-service for Elevare Commerce</description>
+	<description>Microservices project for product and category management with Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
