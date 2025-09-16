@@ -23,16 +23,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponseDTO> incorrectJson(HttpMessageNotReadableException ex, HttpServletRequest request){
+    public ResponseEntity<ErrorResponseDTO> incorrectJsonHandler(HttpMessageNotReadableException ex, HttpServletRequest request){
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorListDTO> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request){
+    public ResponseEntity<ErrorListDTO> fieldValidationHandlers(MethodArgumentNotValidException ex, HttpServletRequest request){
         var errors = ex.getBindingResult()
                 .getFieldErrors().stream()
                 .map(field -> new FieldErrorDTO(field.getField(), field.getDefaultMessage()))
                 .toList();
-        return  errorListResponse("Validation failed", HttpStatus.BAD_REQUEST,errors,request.getRequestURI());
+        String message = "Validation error: some fields are missing or incorrect.";
+        return  errorListResponse(message, HttpStatus.BAD_REQUEST,errors,request.getRequestURI());
     }
 
     @ExceptionHandler(ClientErrorException.class)
@@ -46,7 +47,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> genericHandler(Exception ex, HttpServletRequest request){
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Unexpected error", request);
+        String message = "Unexpected error";
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, message, request);
     }
 
 

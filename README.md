@@ -18,12 +18,11 @@ The service uses **Consul** for service discovery and requires a **JWT token** f
 - OAuth2 Resource Server
 - Maven
 ---
-## JWT & Keys
-All microservices (including Product Service) must use the same public key as the Auth-Service to validate JWT tokens.
-- Make sure the public key is accessible to each service, either via environment variable or configuration file.
-- The private key remains only in the Auth-Service for signing tokens.
-- If you don’t have a key pair yet, you can generate one with this [project](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
-- All endpoints are protected with JWT. Obtain a token from the [Auth Service](https://github.com/Dev-Erick-Marques/auth-service).
+##  Features
+
+- Product management: CRUD operations for products
+- Category management: CRUD operations for categories
+- Role-based access control
 ---
 ## Prerequisites
 
@@ -32,26 +31,18 @@ All microservices (including Product Service) must use the same public key as th
 - Auth-Service for JWT token generation
 - Same public key as the auth service
 ---
+## JWT & Keys
+All microservices (including Product Service) must use the same public key as the Auth-Service to validate JWT tokens.
+- Make sure the public key is accessible to each service, either via environment variable or configuration file.
+- The private key remains only in the Auth-Service for signing tokens.
+- If you don’t have a key pair yet, you can generate one with this [project](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
+- All endpoints are protected with JWT. Obtain a token from the [Auth Service](https://github.com/Dev-Erick-Marques/auth-service).
+---
+
 ## Consul Setup
 1. Download Consul [here](https://developer.hashicorp.com/consul/install) 
 2. Run in development mode: `consul agent -dev`
 3. The Consul web UI will be available at ``localhost:8500``
----
-##  Features
-
-- Modular domains: Each domain (Product, Category) has its own controllers, services, and DTOs. 
-- Shared global error handling: One GlobalExceptionHandler handles both domain-specific and generic exceptions.
-
-- Structured error responses:
-- Supports field-level validation errors with a list of errors. 
-- ISO 8601 UTC timestamps truncated to milliseconds. 
-- Consistent JSON format across domains. 
-- Single Responsibility Principle (SRP):
-- Handler builds error responses. 
-- DTOs hold error details. 
-- Domain modules remain isolated. 
-- Validation support: Bean Validation (@Valid, @NotNull, etc.) automatically triggers structured 400 responses.
-
 ---
 ## Main Endpoints
 

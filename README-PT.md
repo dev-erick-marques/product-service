@@ -17,13 +17,13 @@ A aplicação utiliza **Consul** para service discovery e requer um **token JWT*
 - Maven
 
 ---
-## JWT e Keys
-Todos os microsserviços (incluindo o Product Service) devem usar a mesma chave pública que o Auth Service para validar tokens JWT.
-- Certifique-se de que a chave pública esteja acessível a cada serviço, seja por meio de uma variável de ambiente ou de um arquivo de configuração.
-- A chave privada permanece no Auth-Service apenas para assinar os tokens.
-- Caso ainda não tenha um par de chaves, você pode gerar atraves deste [projeto](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
-- Todos os endpoints são protegidos por token JWT. Obtenha um token em [Auth Service](https://github.com/Dev-Erick-Marques/auth-service).
-----
+## Funcionalidades 
+
+- Autenticação de usuarios (/auth/login)
+- Registro de usuários (/auth/register)
+- Geração e validação de token JWT
+
+---
 ## Pré-requisitos
 
 - **Java 17+**
@@ -32,6 +32,14 @@ Todos os microsserviços (incluindo o Product Service) devem usar a mesma chave 
 - **Postgres** (ou outro que preferir)
 
 ---
+## JWT e Keys
+Todos os microsserviços (incluindo o Product Service) devem usar a mesma chave pública que o Auth Service para validar tokens JWT.
+- Certifique-se de que a chave pública esteja acessível a cada serviço, seja por meio de uma variável de ambiente ou de um arquivo de configuração.
+- A chave privada permanece no Auth-Service apenas para assinar os tokens.
+- Caso ainda não tenha um par de chaves, você pode gerar atraves deste [projeto](https://github.com/Dev-Erick-Marques/rsa256-key-pair-generator).
+- Todos os endpoints são protegidos por token JWT. Obtenha um token em [Auth Service](https://github.com/Dev-Erick-Marques/auth-service).
+----
+
 ## Configuração do Consul
 
 O projeto depende do **Consul** para registro e descoberta de serviços. 
@@ -40,22 +48,7 @@ O projeto depende do **Consul** para registro e descoberta de serviços.
 3. O Consul web UI estará disponivel em ``localhost:8500``
 
 ---
-## Funcionalidades Implementadas
 
-- Domínios modulares: Cada domínio (Produto, Categoria) possui seus próprios controladores, serviços e DTOs.
-- Tratamento de erros global compartilhado: Um GlobalExceptionHandler lida com exceções específicas de domínio e genéricas.
-
-- Respostas de erro estruturadas:
-- Suporta erros de validação em nível de campo com uma lista de erros.
-- timestamps de data e hora UTC ISO 8601 truncados para milissegundos.
-- Formato JSON consistente em todos os domínios.
-- Princípio da Responsabilidade Única (SRP):
-- O handler cria respostas de erro.
-- Os DTOs armazenam detalhes do erro.
-- Os módulos de domínio permanecem isolados.
-- Suporte à validação: A Validação de Bean (@Valid, @NotNull, etc.) aciona automaticamente respostas estruturadas de 400.
-
----
 ## Endpoints Principais
 ### Produtos
 
