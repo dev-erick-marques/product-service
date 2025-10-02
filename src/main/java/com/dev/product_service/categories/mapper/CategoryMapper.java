@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-//    @Mapping(target = "categoryId", ignore = true)
+    @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "isDeleted",constant = "false")
     Category toEntity(CategoryRequestDTO dto);
 

@@ -46,7 +46,8 @@ public class ProductService {
     }
 
     public void saveProducts(ProductRequestDTO dto){
-        repository.save(new Product(dto));
+        Product product = mapper.toEntity(dto);
+        repository.save(product);
     }
 
 

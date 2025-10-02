@@ -19,11 +19,12 @@ public class Product {
     private String description;
     private Boolean isDeleted;
 
-    public Product(ProductRequestDTO dto){
-        this.productName = dto.productName();
-        this.categoryId = dto.categoryId();
-        this.description = dto.description();
+    public Product(UUID categoryId, String productName, String description) {
+        this.categoryId = categoryId;
+        this.productName = productName;
+        this.description = description;
     }
+
     public Product(){}
 
 }
