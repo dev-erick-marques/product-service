@@ -9,6 +9,7 @@ import com.dev.product_service.products.entity.Product;
 import com.dev.product_service.products.mapper.ProductMapper;
 import com.dev.product_service.products.repository.ProductRepository;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-@Getter @Setter
+
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
     private final ProductRepository repository;
-    
-    public ProductService(ProductRepository repository){
-        this.repository = repository;
-    }
 
     public ProductListDTO getAllProducts(){
         var products = repository.findAll();

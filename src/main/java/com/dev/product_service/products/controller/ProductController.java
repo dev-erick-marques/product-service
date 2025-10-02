@@ -4,6 +4,7 @@ import com.dev.product_service.products.dto.ProductListDTO;
 import com.dev.product_service.products.dto.ProductRequestDTO;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductService service;
+
+    private final ProductService service;
 
     @GetMapping
     public ResponseEntity<ProductListDTO> getAllProducts(){

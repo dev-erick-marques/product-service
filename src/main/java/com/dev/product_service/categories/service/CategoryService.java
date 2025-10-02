@@ -8,6 +8,7 @@ import com.dev.product_service.categories.mapper.CategoryMapper;
 import com.dev.product_service.categories.repository.CategoryRepository;
 import com.dev.product_service.common.exception.CategoriesNotFoundException;
 import com.dev.product_service.common.exception.CategoryNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +17,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    private final CategoryRepository repository;
 
+    private final CategoryRepository repository;
 
     private final CategoryMapper mapper = Mappers.getMapper(CategoryMapper.class);
 
-    public CategoryService(CategoryRepository repository) {
-        this.repository = repository;
-    }
     public CategoryResponseDTO registerCategory(CategoryRequestDTO dto){
         Category category = mapper.toEntity(dto);
         Category saved = repository.save(category);
