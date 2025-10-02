@@ -1,6 +1,7 @@
 package com.dev.product_service.products.controller;
 
 import com.dev.product_service.products.dto.ProductListDTO;
+import com.dev.product_service.products.dto.ProductRequestDTO;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ProductController {
         return ResponseEntity.ok(service.getAllProducts());
     }
     @PostMapping
-    public ResponseEntity<Void> registerProduct(@RequestBody ProductResponseDTO dto){
+    public ResponseEntity<Void> registerProduct(@RequestBody ProductRequestDTO dto){
         service.saveProducts(dto);
         return ResponseEntity.ok().build();
     }

@@ -1,6 +1,6 @@
 package com.dev.product_service.products.entity;
 
-import com.dev.product_service.products.dto.ProductResponseDTO;
+import com.dev.product_service.products.dto.ProductRequestDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,7 @@ public class Product {
     private String description;
     private Boolean isDeleted;
 
-    public Product(ProductResponseDTO dto){
+    public Product(ProductRequestDTO dto){
         this.productName = dto.productName();
         this.categoryId = dto.categoryId();
         this.description = dto.description();

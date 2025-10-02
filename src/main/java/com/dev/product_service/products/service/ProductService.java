@@ -3,6 +3,7 @@ package com.dev.product_service.products.service;
 import com.dev.product_service.common.exception.ProductNotFoundException;
 import com.dev.product_service.common.exception.ProductsNotFoundException;
 import com.dev.product_service.products.dto.ProductListDTO;
+import com.dev.product_service.products.dto.ProductRequestDTO;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.entity.Product;
 import com.dev.product_service.products.mapper.ProductMapper;
@@ -46,7 +47,7 @@ public class ProductService {
         repository.softDeleteByProductId(id, isDeleted);
     }
 
-    public void saveProducts(ProductResponseDTO dto){
+    public void saveProducts(ProductRequestDTO dto){
         repository.save(new Product(dto));
     }
 
