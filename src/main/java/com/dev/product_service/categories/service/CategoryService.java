@@ -6,9 +6,9 @@ import com.dev.product_service.categories.dto.CategoryResponseDTO;
 import com.dev.product_service.categories.entity.Category;
 import com.dev.product_service.categories.mapper.CategoryMapper;
 import com.dev.product_service.categories.repository.CategoryRepository;
-import com.dev.product_service.common.exception.ClientErrorException;
+import com.dev.product_service.common.exception.CategoriesNotFoundException;
+import com.dev.product_service.common.exception.CategoryNotFoundException;
 import org.mapstruct.factory.Mappers;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class CategoryService {
     public CategoryResponseDTO getCategoryById(UUID id){
          Optional<Category> category = repository.findById(id);
          if(category.isEmpty()){
-             throw new ClientErrorException("Category not found", HttpStatus.NOT_FOUND);
+             throw new CategoryNotFoundException();
          }
          return mapper.toDTO(category.get());
     }
@@ -43,7 +43,7 @@ public class CategoryService {
                 .map(mapper::toDTO)
                 .toList();
         if (categories.isEmpty()){
-            throw new ClientErrorException("No categories were found", HttpStatus.NOT_FOUND);
+            throw new CategoriesNotFoundException();
         }
         return new CategoryListResponse(categories);
     }

@@ -1,10 +1,10 @@
 package com.dev.product_service.common.handler;
 
-import com.dev.product_service.common.dto.ErrorResponseDTO;
 import com.dev.product_service.common.dto.ErrorListDTO;
+import com.dev.product_service.common.dto.ErrorResponseDTO;
 import com.dev.product_service.common.dto.FieldErrorDTO;
-import com.dev.product_service.common.exception.ClientErrorException;
-import com.dev.product_service.common.exception.ServerErrorException;
+import com.dev.product_service.common.exception.CategoriesNotFoundException;
+import com.dev.product_service.common.exception.CategoryNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +33,15 @@ public class GlobalExceptionHandler {
                 .map(field -> new FieldErrorDTO(field.getField(), field.getDefaultMessage()))
                 .toList();
         String message = "Validation error: some fields are missing or incorrect.";
-        return  errorListResponse(message, HttpStatus.BAD_REQUEST,errors,request.getRequestURI());
+        return  errorListResponse(message,(HttpStatus) ex.getStatusCode(),errors,request.getRequestURI());
     }
 
-    @ExceptionHandler(ClientErrorException.class)
-    public ResponseEntity<ErrorResponseDTO> clientErrorHandler(ClientErrorException ex, HttpServletRequest request){
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> categoryNotFoundHandler(CategoryNotFoundException ex, HttpServletRequest request){
         return buildResponse(ex.getStatus(), ex.getMessage(), request);
     }
-    @ExceptionHandler(ServerErrorException.class)
-    public ResponseEntity<ErrorResponseDTO> serverErrorHandler(ServerErrorException ex, HttpServletRequest request){
+    @ExceptionHandler(CategoriesNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> categoriesNotFoundHandler(CategoriesNotFoundException ex, HttpServletRequest request){
         return buildResponse(ex.getStatus(), ex.getMessage(), request);
     }
 

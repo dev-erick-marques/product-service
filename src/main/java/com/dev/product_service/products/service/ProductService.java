@@ -1,9 +1,10 @@
 package com.dev.product_service.products.service;
 
+import com.dev.product_service.common.exception.ProductNotFoundException;
+import com.dev.product_service.common.exception.ProductsNotFoundException;
 import com.dev.product_service.products.dto.ProductListDTO;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.entity.Product;
-import com.dev.product_service.common.exception.ResourceNotFoundException;
 import com.dev.product_service.products.mapper.ProductMapper;
 import com.dev.product_service.products.repository.ProductRepository;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class ProductService {
     public ProductListDTO getAllProducts(){
         var products = repository.findAll();
         if(products.isEmpty())
-            throw new ResourceNotFoundException("No products were found");
+            throw new ProductsNotFoundException();
         return new ProductListDTO(products
                 .stream()
                 .map(mapper::toDTO)
@@ -36,12 +37,12 @@ public class ProductService {
     }
     public ProductResponseDTO getProductById(UUID id){
         Optional<Product> product = repository.findByProductId(id);
-        product.orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        product.orElseThrow(ProductNotFoundException::new);
         return mapper.toDTO(product.get());
     }
     public void softDeleteProductById(UUID id, Boolean isDeleted){
         Optional<Product> product = repository.findByProductId(id);
-        product.orElseThrow(() -> new ResourceNotFoundException("Product not found") );
+        product.orElseThrow(ProductNotFoundException::new);
         repository.softDeleteByProductId(id, isDeleted);
     }
 
