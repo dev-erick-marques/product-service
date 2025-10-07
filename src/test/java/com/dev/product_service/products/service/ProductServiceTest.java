@@ -1,5 +1,6 @@
 package com.dev.product_service.products.service;
 
+import com.dev.product_service.common.exception.ProductNotFoundException;
 import com.dev.product_service.products.dto.ProductResponseDTO;
 import com.dev.product_service.products.entity.Product;
 import com.dev.product_service.products.repository.ProductRepository;
@@ -24,7 +25,7 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
-    @DisplayName("Get product by id when product exists return productDTO")
+    @DisplayName("Get product by id when product exists should return productDTO")
     @Test
     void getProductById_whenProductExists() {
         UUID categoryId = UUID.randomUUID();
@@ -37,6 +38,14 @@ class ProductServiceTest {
 
         Assertions.assertEquals(categoryId, testResult.categoryId());
         Assertions.assertEquals(productId, testResult.productId());
+    }
+
+    @DisplayName("Get product by id when product doesn't exist should throw exception")
+    @Test
+    void getProductById_whenProductNotExists(){
+        UUID productId = UUID.randomUUID();
+        Mockito.when(productRepository.findByProductId(productId)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ProductNotFoundException.class, () -> productService.getProductById(productId));
     }
 
 
